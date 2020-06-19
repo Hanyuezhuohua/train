@@ -1,2 +1,2 @@
 code:
-	g++ main.cpp -o code -02
+	g++ main.cpp -o code
