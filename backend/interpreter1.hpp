@@ -239,7 +239,7 @@ class Interpreter{
 		    else if(tmp == string<15>("query_train")){
 		    	string<20> trainID;
 		    	string<5> date;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-i")){
