@@ -30,7 +30,7 @@ class Interpreter{
     	    	string<10> name;
     	    	string<30> mailAddr;
     	    	int privilege;
-    	    	while(std::cin.get() != 13 && !std::cin.eof()){
+    	    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-c")){
@@ -62,7 +62,7 @@ class Interpreter{
 		    else if(tmp == string<10>("login")){
 		    	string<20> username;
     	    	string<30> password;
-    	    	while(std::cin.get() != 13 && !std::cin.eof()){
+    	    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
 					if(op == string<3>("-u")){
@@ -88,7 +88,7 @@ class Interpreter{
 		    else if(tmp == string<15>("query_profile")){
 		    	string<20> username1;
     	    	string<20> username2;
-    	    	while(std::cin.get() != 13 && !std::cin.eof()){
+    	    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-c")){
@@ -111,7 +111,7 @@ class Interpreter{
     	    	string<10> name = invalid_name;
     	    	string<30> mailAddr = invalid_mailAddr;
     	    	int privilege = invalid_privilege;
-    	    	while(std::cin.get() != 13 && !std::cin.eof()){
+    	    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-c")){
@@ -143,7 +143,7 @@ class Interpreter{
 		    	string<20> trainID;
 		    	int stationNum;
 		    	int seatNum;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-i")){
@@ -165,7 +165,7 @@ class Interpreter{
 		    	string<5> saleDate_from;
 		    	string<5> saleDate_to;
 		    	char type;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-s")){
@@ -222,7 +222,7 @@ class Interpreter{
 		    } 
 		    else if(tmp == string<15>("release_train")){
 		    	string<20> trainID;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-i")){
@@ -293,7 +293,7 @@ class Interpreter{
 		    }
 		    else if(tmp == string<15>("delete_train")){
 		    	string<20> trainID;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-i")){
@@ -307,7 +307,7 @@ class Interpreter{
 		    	string<20> station1;
 		    	string<20> station2;
 		    	string<5> cmp;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-d")){
@@ -359,7 +359,7 @@ class Interpreter{
 		    	string<20> station1;
 		    	string<20> station2;
 		    	string<5> cmp;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-d")){
@@ -410,7 +410,7 @@ class Interpreter{
 		    	string<20> arriving_station;
 		    	int ticketNum;
 		    	string<5> queue("false");
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-u")){
@@ -455,7 +455,7 @@ class Interpreter{
 		    }
 		    else if(tmp == string<15>("query_order")){
 		    	string<20> username;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-u")){
@@ -471,7 +471,7 @@ class Interpreter{
 		    else if(tmp == string<15>("refund_ticket")){
 		    	string<20> username;
 		    	int n = 1;
-		    	while(std::cin.get() != 13 && !std::cin.eof()){
+		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
     	    		if(op == string<3>("-u")){
