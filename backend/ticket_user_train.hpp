@@ -27,8 +27,8 @@ namespace sjtu{
 	private:
 		string<20> trainID;
 		string<5> date;
-		string<20> leaving_station;
-		string<20> arriving_station;
+		string<40> leaving_station;
+		string<40> arriving_station;
 		int ticket_num;
 		int price;
 		string<5> leaving_time;
@@ -40,7 +40,7 @@ namespace sjtu{
 		int arriving_num;
 	public:
 		ticket_user_train() = default;
-		ticket_user_train(const string<20> &TrainID, const string<5> &Date, const string<20> &Leaving_station, const string<20> &Arriving_station, int Ticket_num, const string<5> &Leaving_time, const string<5> &Arriving_time, int Date_gap, int Date_fix, const string<8> &Status, int Price, int Leaving_num, int Arriving_num):trainID(TrainID), date(Date), leaving_station(Leaving_station), arriving_station(Arriving_station), ticket_num(Ticket_num), leaving_time(Leaving_time), arriving_time(Arriving_time), date_gap(Date_gap), date_fix(Date_fix), status(Status), price(Price), leaving_num(Leaving_num), arriving_num(Arriving_num){}
+		ticket_user_train(const string<20> &TrainID, const string<5> &Date, const string<40> &Leaving_station, const string<40> &Arriving_station, int Ticket_num, const string<5> &Leaving_time, const string<5> &Arriving_time, int Date_gap, int Date_fix, const string<8> &Status, int Price, int Leaving_num, int Arriving_num):trainID(TrainID), date(Date), leaving_station(Leaving_station), arriving_station(Arriving_station), ticket_num(Ticket_num), leaving_time(Leaving_time), arriving_time(Arriving_time), date_gap(Date_gap), date_fix(Date_fix), status(Status), price(Price), leaving_num(Leaving_num), arriving_num(Arriving_num){}
 		~ticket_user_train() = default; 
 		void print(){
 			std::cout << "[" << status << "] " << trainID << " " << leaving_station << " " << date << " " << leaving_time << " -> " << arriving_station << " " << add_date(date, date_gap) << " " << arriving_time << " " << price << " " << ticket_num << std::endl;

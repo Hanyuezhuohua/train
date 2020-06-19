@@ -5,11 +5,11 @@
 namespace sjtu{
 	class station_train{
 	private:
-		string<20> station;
+		string<40> station;
 		string<20> trainID;
 	public:
 		station_train() = default;
-	    station_train(const string<20> &Station, const string<20> &TrainID):station(Station), trainID(TrainID){}
+	    station_train(const string<40> &Station, const string<20> &TrainID):station(Station), trainID(TrainID){}
 	    station_train(const station_train &other){
 	    	station = other.station;
 	    	trainID = other.trainID;
@@ -19,7 +19,7 @@ namespace sjtu{
 	    	new(this)station_train(other);
 	    	return *this;
 		}
-		inline const string<20> &get_station() const{
+		inline const string<40> &get_station() const{
 			return station;
 		}
 		inline const string<20> &get_trainID() const{
@@ -60,8 +60,8 @@ namespace sjtu{
 	class ticket_train{
 	public:
 		string<20> trainID;
-		string<20> leaving_station;
-		string<20> arriving_station;
+		string<40> leaving_station;
+		string<40> arriving_station;
 		string<5> start_date;
 		string<5> leaving_date;
 		string<5> arriving_date;
@@ -72,7 +72,7 @@ namespace sjtu{
 		int price;
 	public:
 		ticket_train() = default;
-		ticket_train(const string<20> &TrainID, const string<20> &Leaving_station, const string<20> &Arriving_station, const string<5> &Start_date, const string<5> &Leaving_date, const string<5> &Arriving_date, const string<5> &Leaving_time, const string<5> &Arriving_time, int Price, int Num1, int Num2):trainID(TrainID), leaving_station(Leaving_station), arriving_station(Arriving_station), start_date(Start_date), leaving_date(Leaving_date), arriving_date(Arriving_date), leaving_time(Leaving_time), arriving_time(Arriving_time), price(Price), num1(Num1), num2(Num2){}
+		ticket_train(const string<20> &TrainID, const string<40> &Leaving_station, const string<40> &Arriving_station, const string<5> &Start_date, const string<5> &Leaving_date, const string<5> &Arriving_date, const string<5> &Leaving_time, const string<5> &Arriving_time, int Price, int Num1, int Num2):trainID(TrainID), leaving_station(Leaving_station), arriving_station(Arriving_station), start_date(Start_date), leaving_date(Leaving_date), arriving_date(Arriving_date), leaving_time(Leaving_time), arriving_time(Arriving_time), price(Price), num1(Num1), num2(Num2){}
 		~ticket_train() = default;
 		bool operator == (const ticket_train &other) const{
 			return trainID == other.trainID && leaving_station == other.leaving_station && arriving_station == other.arriving_station && start_date == other.start_date;

@@ -17,7 +17,7 @@ namespace sjtu{
 			}
 	        ~ticket_user_train_related(){
 			}
-			inline int add_ticket(const string<20> &username, const string<20> &trainID, const string<5> &date, const string<20> &leaving_station, const string<20> &arriving_station, int ticket_num, const string<5> &leaving_time, const string<5> &arriving_time, int date_gap, int date_fix, const string<8> &status, int price, int num1, int num2){
+			inline int add_ticket(const string<20> &username, const string<20> &trainID, const string<5> &date, const string<40> &leaving_station, const string<40> &arriving_station, int ticket_num, const string<5> &leaving_time, const string<5> &arriving_time, int date_gap, int date_fix, const string<8> &status, int price, int num1, int num2){
 				int success1 = order_num.count(username);
 				int data = 0;
 				if(success1 == 0){
@@ -33,7 +33,7 @@ namespace sjtu{
 				ticket_user_train_tree.insert(user_order(data, username), tmp);
 				return data;
 			}
-			inline void add_queue(const string<20> &username, int data, const string<20> &trainID, const string<5> &date, const string<20> &leaving_station, const string<20> &arriving_station, int ticket_num, const string<5> &leaving_time, const string<5> &arriving_time, int date_gap, int date_fix, const string<8> &status, int price, int num1, int num2){
+			inline void add_queue(const string<20> &username, int data, const string<20> &trainID, const string<5> &date, const string<40> &leaving_station, const string<40> &arriving_station, int ticket_num, const string<5> &leaving_time, const string<5> &arriving_time, int date_gap, int date_fix, const string<8> &status, int price, int num1, int num2){
 				queue_list.push_back(pair<queue_index, queue_value>(queue_index(trainID, minus_date(date, date_fix), data), queue_value(num1, num2, ticket_num, username)));
 			}
 			inline int query_order(const string<20> &username){

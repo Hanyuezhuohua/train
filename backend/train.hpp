@@ -111,7 +111,6 @@ namespace sjtu{
 	class train{
 	public: //除了trainID的其他信息 
 		int stationNum = 0;
-		string<20> *stations;
 		string<5> startTime;
 		string<5> saleDate_from;
 		string<5> saleDate_to;  

@@ -13,7 +13,7 @@ namespace sjtu{
 	    bptree<station_train, time_cost> ticket_train_tree;
 	public:
 		struct key{
-			string<20> station;
+			string<40> station;
 			string<5> timearrive;
 			string<5> timeleave;
 			int date_gap;
@@ -58,10 +58,10 @@ namespace sjtu{
 					}
 				}
 		}
-		void add_ticket_train(const string<20> &Station, const string<20> &TrainID, const string<5> &SaleDate_from, const string<5> &SaleDate_to, int Date_gap, int Date_fix, const string<5> &Leaving_time, const string<5> &Arriving_time, int Station_num, int Price){
+		void add_ticket_train(const string<40> &Station, const string<20> &TrainID, const string<5> &SaleDate_from, const string<5> &SaleDate_to, int Date_gap, int Date_fix, const string<5> &Leaving_time, const string<5> &Arriving_time, int Station_num, int Price){
 			ticket_train_tree.insert(station_train(Station, TrainID), time_cost(SaleDate_from, SaleDate_to, Date_gap, Date_fix, Arriving_time, Leaving_time, Station_num, Price)); 
 		}
-		priority_queue<ticket_train, cmp_time> query_ticket_time(const string<20> &station1, const string<20> &station2, const string<5> &date){
+		priority_queue<ticket_train, cmp_time> query_ticket_time(const string<40> &station1, const string<40> &station2, const string<5> &date){
 			priority_queue<ticket_train, cmp_time> result;
 			char a[2];
 			a[0] = 0x80;
@@ -69,8 +69,8 @@ namespace sjtu{
 			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter2 = ticket_train_tree.lower_bound(station_train(station2, tmpID));
 			if(iter1 == ticket_train_tree.end() || iter2 == ticket_train_tree.end()) return result;	
-	        string<20> tmpstation1 = iter1.get_key().get_station();
-	        string<20> tmpstation2 = iter2.get_key().get_station();
+	        string<40> tmpstation1 = iter1.get_key().get_station();
+	        string<40> tmpstation2 = iter2.get_key().get_station();
 	        string<20> tmpID1 = iter1.get_key().get_trainID();
 	        string<20> tmpID2 = iter2.get_key().get_trainID();
 			while(tmpstation1 == station1 && tmpstation2 == station2){
@@ -119,7 +119,7 @@ namespace sjtu{
 			}
 			return result;
 		}
-		priority_queue<ticket_train, cmp_price> query_ticket_price(const string<20> &station1, const string<20> &station2, const string<5> &date){
+		priority_queue<ticket_train, cmp_price> query_ticket_price(const string<40> &station1, const string<40> &station2, const string<5> &date){
 			priority_queue<ticket_train, cmp_price> result;
 			char a[2];
 			a[0] = 0x80;
@@ -127,8 +127,8 @@ namespace sjtu{
 			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter2 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
 			if(iter1 == ticket_train_tree.end() || iter2 == ticket_train_tree.end()) return result;	
-	        string<20> tmpstation1 = iter1.get_key().get_station();
-	        string<20> tmpstation2 = iter2.get_key().get_station();
+	        string<40> tmpstation1 = iter1.get_key().get_station();
+	        string<40> tmpstation2 = iter2.get_key().get_station();
 	        string<20> tmpID1 = iter1.get_key().get_trainID();
 	        string<20> tmpID2 = iter2.get_key().get_trainID();
 			while(tmpstation1 == station1 && tmpstation2 == station2){
@@ -177,7 +177,7 @@ namespace sjtu{
 			}
 			return result;
 		}
-		pair<ticket_train, ticket_train> query_transfer_time(const string<20> &station1, const string<20> &station2, const string<5> &date, train_related &T){
+		pair<ticket_train, ticket_train> query_transfer_time(const string<40> &station1, const string<40> &station2, const string<5> &date, train_related &T){
 			map<key, string<20>, station_compare> set1;
 			map<key, string<20>, station_compare> set2;
 			pair<ticket_train, ticket_train> result;
@@ -327,7 +327,7 @@ namespace sjtu{
 			result = pair<ticket_train, ticket_train>(ans1, ans2);
 			return result;
 		}
-		pair<ticket_train, ticket_train> query_transfer_price(const string<20> &station1, const string<20> &station2, const string<5> &date, train_related &T){
+		pair<ticket_train, ticket_train> query_transfer_price(const string<40> &station1, const string<40> &station2, const string<5> &date, train_related &T){
 
 			map<key, string<20>, station_compare> set1;
 			map<key, string<20>, station_compare> set2;
