@@ -76,7 +76,7 @@ class Interpreter{
 		    }
 		    else if(tmp == string<10>("logout")){
 		    	string<20> username;
-    	    	while(std::cin.get() != 13 && !std::cin.eof()){
+    	    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
     	    		std::cin >> op;
 					if(op == string<3>("-u")){
