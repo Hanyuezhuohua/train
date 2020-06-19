@@ -111,7 +111,7 @@ namespace sjtu{
 	class train{
 	public: //³ýÁËtrainIDµÄÆäËûÐÅÏ¢ 
 		int stationNum = 0;
-		string<20> *stations;
+		string<20>* stations;
 		string<5> startTime;
 		string<5> saleDate_from;
 		string<5> saleDate_to;  

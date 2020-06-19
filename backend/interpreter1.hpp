@@ -28,7 +28,7 @@ class Interpreter{
     	    	string<20> username1;
     	    	string<20> username2;
     	    	string<30> password;
-    	    	string<20> name;
+    	    	NAME name;
     	    	string<30> mailAddr;
     	    	int privilege;
     	    	while(std::cin.get() != 10 && !std::cin.eof()){
@@ -109,7 +109,7 @@ class Interpreter{
 		    	string<20> username1;
     	    	string<20> username2;
     	    	string<30> password = invalid_password;
-    	    	string<20> name = invalid_name;
+    	    	NAME name = invalid_name;
     	    	string<30> mailAddr = invalid_mailAddr;
     	    	int privilege = invalid_privilege;
     	    	while(std::cin.get() != 10 && !std::cin.eof()){
@@ -159,7 +159,7 @@ class Interpreter{
     	    			break;
 					}
 				}
-		    	string<40> stations[stationNum];
+		    	STATIONS stations[stationNum];
 		    	int prices[stationNum];
 		    	string<5> startTime;
 		    	int travelTimes[stationNum];
@@ -173,9 +173,9 @@ class Interpreter{
     	    		if(op == string<3>("-s")){
     	    			std::cin.get();
     	    			for(int i = 0; i < stationNum - 1; ++i){
-    	    				char Tmp[41];
-    	    				std::cin.getline(Tmp, 41, '|');
-    	    				stations[i] = string<40>(Tmp);
+    	    				char Tmp[51];
+    	    				std::cin.getline(Tmp, 51, '|');
+    	    				stations[i] = STATIONS(Tmp);
 						}
 						std::cin >> stations[stationNum - 1];
 					}
@@ -305,8 +305,8 @@ class Interpreter{
 		    }
 		    else if(tmp == string<15>("query_ticket")){
 		    	string<5> date;
-		    	string<40> station1;
-		    	string<40> station2;
+		    	STATIONS station1;
+		    	STATIONS station2;
 		    	string<5> cmp;
 		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
@@ -358,8 +358,8 @@ class Interpreter{
 
 		    else if(tmp == string<15>("query_transfer")){
 		    	string<5> date;
-		    	string<40> station1;
-		    	string<40> station2;
+		    	STATIONS station1;
+		    	STATIONS station2;
 		    	string<5> cmp;
 		    	while(std::cin.get() != 10 && !std::cin.eof()){
     	    		string<3> op;
@@ -408,8 +408,8 @@ class Interpreter{
 		    	string<20> username;
 		    	string<20> trainID;
 		    	string<5> date;
-		    	string<40> leaving_station;
-		    	string<40> arriving_station;
+		    	STATIONS leaving_station;
+		    	STATIONS arriving_station;
 		    	int ticketNum;
 		    	string<5> queue("false");
 		    	while(std::cin.get() != 10 && !std::cin.eof()){

@@ -12,14 +12,14 @@ namespace sjtu{
 	class train_related{
 	public:
 		bptree<string<20>, train> traintree;
-		SJTU::file_vector<string<40>, time1> Station1;
+		SJTU::file_vector<STATIONS, time1> Station1;
 		SJTU::file_vector<int, time2> Time1;
 		SJTU::file_vector<int, time3> Time2;
 		SJTU::file_vector<int, price1> Price1;
 		SJTU::file_vector<int, seat1> Seat1;
 	public:
 		train_related():traintree("traintree", "trainindex"){} 
-	    int add_train(string<20> TrainID, int StationNum, string<40> *Stations, int *Prices, const string<5> &StartTime, int *TravelTimes, int *StopoverTimes, const string<5> &SaleDate_from, const string<5> &SaleDate_to, char Type, int SeatNum){
+	    int add_train(string<20> TrainID, int StationNum, STATIONS *Stations, int *Prices, const string<5> &StartTime, int *TravelTimes, int *StopoverTimes, const string<5> &SaleDate_from, const string<5> &SaleDate_to, char Type, int SeatNum){
 		    int success = traintree.count(TrainID);
 			if(success == 1) return -1;
 			else{
@@ -76,7 +76,7 @@ namespace sjtu{
 				return 0; 
 			}
 		}
-		pair<int, route> query_ticket(const string<20> &TrainID, const string<5> &Date, const string<40> &Leaving_station, const string<40> &Arriving_station, int TicketNum){
+		pair<int, route> query_ticket(const string<20> &TrainID, const string<5> &Date, const STATIONS &Leaving_station, const STATIONS &Arriving_station, int TicketNum){
 			train tmp = traintree.at(TrainID);
 			if(tmp.stationNum == 0) return pair<int, route>(-1, route());
 			else if(tmp.seatnum < TicketNum) return pair<int, route>(-1, route());

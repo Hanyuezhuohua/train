@@ -96,7 +96,7 @@ namespace sjtu{
 	};
 	template <int length>
 	std::istream &operator >>(std::istream &is, string<length> &str){
-		char tmp[41];
+		char tmp[51];
 		is >> tmp;
 		new(&str) string<length>(tmp);
 		return is;

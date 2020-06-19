@@ -5,11 +5,11 @@
 namespace sjtu{
 	class station_train{
 	private:
-		string<40> station;
+		STATIONS station;
 		string<20> trainID;
 	public:
 		station_train() = default;
-	    station_train(const string<40> &Station, const string<20> &TrainID):station(Station), trainID(TrainID){}
+	    station_train(const STATIONS &Station, const string<20> &TrainID):station(Station), trainID(TrainID){}
 	    station_train(const station_train &other){
 	    	station = other.station;
 	    	trainID = other.trainID;
@@ -19,7 +19,7 @@ namespace sjtu{
 	    	new(this)station_train(other);
 	    	return *this;
 		}
-		inline const string<40> &get_station() const{
+		inline const STATIONS &get_station() const{
 			return station;
 		}
 		inline const string<20> &get_trainID() const{
