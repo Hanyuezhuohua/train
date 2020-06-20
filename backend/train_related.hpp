@@ -8,14 +8,29 @@ namespace sjtu{
 	char time2[] = "time1";
 	char time3[] = "time2";
 	char price1[] = "price1";
+	struct mix{
+		STATIONS stations[100];
+		int prices[100];
+		int travelTimes[100];
+		int stopoverTimes[100];
+		mix(){}
+	    mix(int StationNum, STATIONS *Stations, int *Prices, int *TravelTimes, int *StopoverTimes){
+	    	for(int i = 0; i < StationNum; ++i){
+	    		stations[i] = Stations[i];
+	    		prices[i] = Prices[i];
+	    		travelTimes[i] = TravelTimes[i];
+	    		stopoverTimes[i] = StopoverTimes[i];
+			}
+		}
+	}; 
 	char seat1[] = "seat1";
 	class train_related{
 	public:
 		bptree<string<20>, train> traintree;
-		SJTU::file_vector<STATIONS, time1> Station1;
-		SJTU::file_vector<int, time2> Time1;
-		SJTU::file_vector<int, time3> Time2;
-		SJTU::file_vector<int, price1> Price1;
+		SJTU::file_vector<mix, time1> Station1;
+//		SJTU::file_vector<int, time2> Time1;
+//		SJTU::file_vector<int, time3> Time2;
+//		SJTU::file_vector<int, price1> Price1;
 		SJTU::file_vector<int, seat1> Seat1;
 	public:
 		train_related():traintree("traintree", "trainindex"){} 
@@ -26,12 +41,14 @@ namespace sjtu{
 				int pos1, pos2;
 				pos1 = Station1.size();
 				pos2 = Seat1.size();
-				for(int i = 0; i < StationNum; ++i){
-					Station1.push_back(Stations[i]);
-					Time1.push_back(TravelTimes[i]);
-					Time2.push_back(StopoverTimes[i]);
-					Price1.push_back(Prices[i]);
-				}
+//				for(int i = 0; i < StationNum; ++i){
+//					Station1.push_back(Stations[i]);
+//					Time1.push_back(TravelTimes[i]);
+//					Time2.push_back(StopoverTimes[i]);
+//					Price1.push_back(Prices[i]);
+//				}
+                mix tmp(StationNum, Stations, Prices, TravelTimes, StopoverTimes);
+                Station1.push_back(tmp);
 				for(int i = 0; i < minus_date(SaleDate_from, SaleDate_to) + 1; ++i){
 					for(int j = 0; j < StationNum - 1; ++j){
 						Seat1.push_back(SeatNum);
@@ -92,15 +109,16 @@ namespace sjtu{
 			    string<5> leaving_time1;
 			    int tmp1 = -1; 
 			    int tmp2;
+			    mix info = Station1[tmp.pos1];
 			    for(int i = 0; i < tmp.stationNum; ++i){
-				    if(Station1[tmp.pos1 + i] == Leaving_station){
+				    if(info.stations[i] == Leaving_station){
 					    date_gap1 = date_gap;
 					    date_fix1 = date_fix2;
 					    price1 = price;
 					    leaving_time1 = leaving_time;
 					    tmp1 = i;
 				    }
-				    if(Station1[tmp.pos1 + i] == Arriving_station){
+				    if(info.stations[i] == Arriving_station){
 					    tmp2 = i;
 					    if(tmp1 == -1){
 						    flag = false;
@@ -110,11 +128,11 @@ namespace sjtu{
 				    if(i == tmp.stationNum - 1){
 					    flag = false;
 				    }
-			        price += Price1[tmp.pos1 + i + 1];
-			        pair<int, string<5> > tmpTime = add_time(leaving_time, Time1[tmp.pos1 + i + 1]);
+			        price += info.prices[i + 1];
+			        pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
 				    date_fix += tmpTime.first;
 				    date_fix2 = date_fix;
-				    pair<int, string<5> > tmpTime2 = add_time(leaving_time, Time1[tmp.pos1 + i + 1] + Time2[tmp.pos1 + i + 1]);
+				    pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
 				    date_gap = tmpTime2.first - tmpTime.first;
 				    date_fix += date_gap;
 				    arriving_time = tmpTime.second;
