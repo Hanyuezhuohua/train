@@ -11,7 +11,7 @@ using ull = unsigned long long;
 
 const ull hash_seed = 233;
 
-const size_t bitsize = 4096;
+const size_t bitsize = 2048;
 
 extern bool cleaned;
 
