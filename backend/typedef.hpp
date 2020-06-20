@@ -5,7 +5,7 @@
 namespace sjtu{
 	typedef string<20> USERNAME;
 	typedef string<30> PASSWORD;
-	typedef string<30> NAME;
+	typedef string<20> NAME;
 	typedef string<30> MAILADDR;
 	typedef int PRIVILEGE;
 	
@@ -17,7 +17,7 @@ namespace sjtu{
 	
 	typedef string<20> TRAINID;
 	typedef int STATIONNUM;
-	typedef string<50> STATIONS;
+	typedef string<40> STATIONS;
 }
 
 #endif
