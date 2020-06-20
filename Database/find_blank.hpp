@@ -6,7 +6,7 @@ const off_t invalid_off = 0xdeadbeef;
 
 class find_blank {
 public:
-	const off_t K = 8192;
+	const off_t K = 4096;
 	int num;
 	off_t size;
 	off_t *blank;
