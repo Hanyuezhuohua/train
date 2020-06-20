@@ -12,7 +12,7 @@
 
 namespace sjtu
 {
-	template <class Key, class value_t, size_t K = 4096, class Compare = std::less<Key>>
+	template <class Key, class value_t, size_t K = 8192, class Compare = std::less<Key>>
 	class bptree
 	{
 	public:
