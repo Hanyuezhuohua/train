@@ -265,30 +265,31 @@ class Interpreter{
 			            string<5> arriving_date = date;
 			            string<5> leaving_date = date;
 			            int price = 0;
+			            mix info = T.Station1[Tmp.second.second.pos1];
 			            int date_interval = minus_date(Tmp.second.second.saleDate_from, date);
-			            std::cout << T.Station1[Tmp.second.second.pos1] << " xx-xx" << " xx:xx" << " -> " << date << " " << leaving_time << " " << price << " " << T.Seat1[Tmp.second.second.pos2 + date_interval * (Tmp.second.second.stationNum - 1)] << std::endl; 
-			            price += T.Price1[Tmp.second.second.pos1 + 1];
-			            pair<int, string<5> > tmpTime1 = add_time(leaving_time, T.Time1[Tmp.second.second.pos1 + 1]);
+			            std::cout << info.stations[0] << " xx-xx" << " xx:xx" << " -> " << date << " " << leaving_time << " " << price << " " << T.Seat1[Tmp.second.second.pos2 + date_interval * (Tmp.second.second.stationNum - 1)] << std::endl; 
+			            price += info.prices[1];
+			            pair<int, string<5> > tmpTime1 = add_time(leaving_time, info.travelTimes[1]);
 			            date_fix += tmpTime1.first;
-			            pair<int, string<5> > tmpTime3 = add_time(leaving_time, T.Time1[Tmp.second.second.pos1 + 1] + T.Time2[Tmp.second.second.pos1 + 1]);
+			            pair<int, string<5> > tmpTime3 = add_time(leaving_time, info.travelTimes[1] + info.stopoverTimes[1]);
 			            date_gap = tmpTime3.first - tmpTime1.first;
 			            arriving_date = add_date(leaving_date, tmpTime1.first);
 			            leaving_date = add_date(arriving_date, date_gap);
 			            arriving_time = tmpTime1.second;
 			            leaving_time = tmpTime3.second;
 			            for(int i = 1; i < Tmp.second.second.stationNum - 1; ++i){
-				            std::cout << T.Station1[Tmp.second.second.pos1 + i] << " " << arriving_date << " " << arriving_time << " -> " << leaving_date << " " << leaving_time << " " << price << " " << T.Seat1[Tmp.second.second.pos2 + date_interval * (Tmp.second.second.stationNum - 1) + i] << std::endl;
-			                price += T.Price1[Tmp.second.second.pos1 + i + 1];
-			                pair<int, string<5> > tmpTime = add_time(leaving_time, T.Time1[Tmp.second.second.pos1 + i + 1]);
+				            std::cout << info.stations[i] << " " << arriving_date << " " << arriving_time << " -> " << leaving_date << " " << leaving_time << " " << price << " " << T.Seat1[Tmp.second.second.pos2 + date_interval * (Tmp.second.second.stationNum - 1) + i] << std::endl;
+			                price += info.prices[i + 1];
+			                pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
 				            date_fix += tmpTime.first;
-				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, T.Time1[Tmp.second.second.pos1 + i + 1] + T.Time2[Tmp.second.second.pos1 + i + 1]);
+				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
  			                date_gap = tmpTime2.first - tmpTime.first;
 				            arriving_date = add_date(leaving_date, tmpTime.first);
 				            leaving_date = add_date(arriving_date, date_gap);
 				            arriving_time = tmpTime.second;
 				            leaving_time = tmpTime2.second;
 			            }
-			            std::cout << T.Station1[Tmp.second.second.pos1 + Tmp.second.second.stationNum - 1] << " " << arriving_date << " " << arriving_time << " -> xx-xx" << " xx:xx " << price <<  " x\n";
+			            std::cout << info.stations[Tmp.second.second.stationNum - 1] << " " << arriving_date << " " << arriving_time << " -> xx-xx" << " xx:xx " << price <<  " x\n";
 					}
 				}
 		    }
