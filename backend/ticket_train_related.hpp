@@ -179,13 +179,33 @@ namespace sjtu{
 			return result;
 		}
 		pair<ticket_train, ticket_train> query_transfer_time(const STATIONS &station1, const STATIONS &station2, const string<5> &date, train_related &T){
-/*			map<key, string<20>, station_compare> set1;
-			map<key, string<20>, station_compare> set2;
 			pair<ticket_train, ticket_train> result;
 			char a[2];
 			a[0] = 0x80;
 			string<20> tmpID = string<20>(a);
-			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto ita = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto itb = ticket_train_tree.lower_bound(station_train(station2, tmpID));
+			int lena = 0;
+			int lenb = 0;
+			bool f = false;
+			for(; ita != ticket_train_tree.end() && ita.get_key().get_station() == station1; ++ita){
+				lena++;
+				if(lena > 100){
+					f = true;
+					break;
+				}
+			}
+			for(; !f && itb != ticket_train_tree.end() && itb.get_key().get_station() == station2; ++itb){
+				lenb++;
+				if(lenb > 100){
+					f = true;
+					break;
+				}
+			}  
+			if(lena * lenb < 650){
+						    map<key, string<20>, station_compare> set1;
+			map<key, string<20>, station_compare> set2;
+						auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter2 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
 			if(iter1 == ticket_train_tree.end() || iter2 == ticket_train_tree.end()) return result;	
 			while(iter1.get_key().get_station() == station1){
@@ -328,12 +348,10 @@ namespace sjtu{
 				}
 			}
 			result = pair<ticket_train, ticket_train>(ans1, ans2);
-			return result; */
-			pair<ticket_train, ticket_train> result;
-			char a[2];
-			a[0] = 0x80;
-			string<20> tmpID = string<20>(a);
-			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			return result;
+			}	
+			else{
+				auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter3 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
 			ticket_train ans1;
 			ticket_train ans2;
@@ -466,16 +484,37 @@ namespace sjtu{
             }
 			result = pair<ticket_train, ticket_train>(ans1, ans2);
 			return result;
+			}			
 		}
 		pair<ticket_train, ticket_train> query_transfer_price(const STATIONS &station1, const STATIONS &station2, const string<5> &date, train_related &T){
-/*			map<key, string<20>, station_compare> set1;
-			map<key, string<20>, station_compare> set2;
 			pair<ticket_train, ticket_train> result;
 			char a[2];
 			a[0] = 0x80;
 			string<20> tmpID = string<20>(a);
-			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto ita = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto itb = ticket_train_tree.lower_bound(station_train(station2, tmpID));
+			int lena = 0;
+			int lenb = 0;
+			bool f = false;
+			for(; ita != ticket_train_tree.end() && ita.get_key().get_station() == station1; ++ita){
+				lena++;
+				if(lena > 100){
+					f = true;
+					break;
+				}
+			}
+			for(; !f && itb != ticket_train_tree.end() && itb.get_key().get_station() == station2; ++itb){
+				lenb++;
+				if(lenb > 100){
+					f = true;
+					break;
+				}
+			}  
+			if(lena * lenb < 650){
+				auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter2 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
+			map<key, string<20>, station_compare> set1;
+			map<key, string<20>, station_compare> set2;
 			if(iter1 == ticket_train_tree.end() || iter2 == ticket_train_tree.end()) return result;	
 			while(iter1.get_key().get_station() == station1){
 				string<20> TrainID = iter1.get_key().get_trainID();
@@ -619,12 +658,10 @@ namespace sjtu{
 				}
 			}
 			pair<ticket_train, ticket_train> ans(ans1, ans2);
-			return ans;*/
-						pair<ticket_train, ticket_train> result;
-			char a[2];
-			a[0] = 0x80;
-			string<20> tmpID = string<20>(a);
-			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			return ans;
+			}
+			else{
+					auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
 			auto iter3 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
 			ticket_train ans1;
 			ticket_train ans2;
@@ -757,6 +794,8 @@ namespace sjtu{
             }
 			result = pair<ticket_train, ticket_train>(ans1, ans2);
 			return result;
+			}
+		
 		}
     };
 }
