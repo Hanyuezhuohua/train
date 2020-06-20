@@ -60,8 +60,8 @@ namespace sjtu{
 	class ticket_train{
 	public:
 		string<20> trainID;
-		string<40> leaving_station;
-		string<40> arriving_station;
+		STATIONS leaving_station;
+		STATIONS arriving_station;
 		string<5> start_date;
 		string<5> leaving_date;
 		string<5> arriving_date;
@@ -72,7 +72,7 @@ namespace sjtu{
 		int price;
 	public:
 		ticket_train() = default;
-		ticket_train(const string<20> &TrainID, const string<40> &Leaving_station, const string<40> &Arriving_station, const string<5> &Start_date, const string<5> &Leaving_date, const string<5> &Arriving_date, const string<5> &Leaving_time, const string<5> &Arriving_time, int Price, int Num1, int Num2):trainID(TrainID), leaving_station(Leaving_station), arriving_station(Arriving_station), start_date(Start_date), leaving_date(Leaving_date), arriving_date(Arriving_date), leaving_time(Leaving_time), arriving_time(Arriving_time), price(Price), num1(Num1), num2(Num2){}
+		ticket_train(const string<20> &TrainID, const STATIONS &Leaving_station, const STATIONS &Arriving_station, const string<5> &Start_date, const string<5> &Leaving_date, const string<5> &Arriving_date, const string<5> &Leaving_time, const string<5> &Arriving_time, int Price, int Num1, int Num2):trainID(TrainID), leaving_station(Leaving_station), arriving_station(Arriving_station), start_date(Start_date), leaving_date(Leaving_date), arriving_date(Arriving_date), leaving_time(Leaving_time), arriving_time(Arriving_time), price(Price), num1(Num1), num2(Num2){}
 		~ticket_train() = default;
 		bool operator == (const ticket_train &other) const{
 			return trainID == other.trainID && leaving_station == other.leaving_station && arriving_station == other.arriving_station && start_date == other.start_date;
