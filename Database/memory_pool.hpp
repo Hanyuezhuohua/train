@@ -11,7 +11,7 @@ using ull = unsigned long long;
 
 const ull hash_seed = 233;
 
-const size_t bitsize = 2048;
+const size_t bitsize = 3584;
 
 extern bool cleaned;
 
@@ -78,7 +78,7 @@ struct unit {
 	}
 };
 
-const size_t magic = 33331, K = 2500;
+const size_t magic = 33331, K = 1024;
 
 class buffer_pool {
 private:
