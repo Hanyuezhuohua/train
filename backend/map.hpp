@@ -11,15 +11,9 @@
 #include <cstddef>
 #include "utility.hpp"
 #include "exceptions.hpp"
+#include "priority_queue.hpp"
 
 namespace sjtu {
-
-template <class T> void swap(T &a, T &b) {
-	T temp = a;
-	a = b;
-	b = temp;
-}
-
 template <class Key, class T, class Compare = std::less<Key>>
 class map {
 public:
