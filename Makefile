@@ -1,2 +1,2 @@
 code:
-	g++ main.cpp -o code -O2
+	g++ main.cpp -o code -Ofast
