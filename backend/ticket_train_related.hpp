@@ -179,7 +179,7 @@ namespace sjtu{
 			return result;
 		}
 		pair<ticket_train, ticket_train> query_transfer_time(const STATIONS &station1, const STATIONS &station2, const string<5> &date, train_related &T){
-			map<key, string<20>, station_compare> set1;
+/*			map<key, string<20>, station_compare> set1;
 			map<key, string<20>, station_compare> set2;
 			pair<ticket_train, ticket_train> result;
 			char a[2];
@@ -328,11 +328,147 @@ namespace sjtu{
 				}
 			}
 			result = pair<ticket_train, ticket_train>(ans1, ans2);
+			return result; */
+			pair<ticket_train, ticket_train> result;
+			char a[2];
+			a[0] = 0x80;
+			string<20> tmpID = string<20>(a);
+			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto iter3 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
+			ticket_train ans1;
+			ticket_train ans2;
+			int min = 100000;
+			for(; iter1 != ticket_train_tree.end() && iter1.get_key().get_station() == station1; ++iter1){
+			    vector<key> set1;
+			    set1.clear();
+			    string<20> TrainID1 = iter1.get_key().get_trainID();
+				train tmp = T.at(TrainID1);
+				if(!tmp.isrelease()){	
+					continue;
+				}
+				else{
+					bool flag = false;
+					int date_gap = 0;
+			        int date_fix = 0;
+			        int date_fix1 = 0;
+			        int date_fix2 = 0;
+			        int price1 = 0;
+			        int num;
+			        mix info = T.Station1[tmp.pos1]; 
+			        string<5> arriving_time = tmp.startTime;
+			        string<5> leaving_time = tmp.startTime;
+			        int price = 0;
+			        string<5> leaving_time1;
+			        for(int i = 0; i < tmp.stationNum; ++i){
+			        	if(flag){
+			        		set1.push_back(key{info.stations[i], arriving_time, leaving_time1, date_gap, date_fix2 - date_fix1, date_fix2, price - price1, tmp.saleDate_from, tmp.saleDate_to, num, i});
+						}
+						if(station1 == info.stations[i]){
+							flag = true;
+							date_fix1 = date_fix2 + date_gap;
+							price1 = price;
+							num = i;
+							leaving_time1 = leaving_time;
+						}
+						if(i == tmp.stationNum - 1) break;
+			            price += info.prices[i + 1];
+			            pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				        date_fix += tmpTime.first;
+				        date_fix2 = date_fix;
+				        pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				        date_gap = tmpTime2.first - tmpTime.first;
+				        date_fix += date_gap;
+				        arriving_time = tmpTime.second;
+				        leaving_time = tmpTime2.second;
+			        }
+				for(auto iter2 = iter3; iter2 != ticket_train_tree.end() && iter2.get_key().get_station() == station2; ++iter2){
+					vector<key> set2;
+					set2.clear();
+					string<20> TrainID2 = iter2.get_key().get_trainID();
+					if(TrainID1 == TrainID2) continue;
+				    train tmp = T.at(TrainID2);
+				    if(!tmp.isrelease())continue;
+				    else{
+					    int date_gap = 0;
+					    int date_gap1;
+			            int date_fix = 0;
+			            int date_fix1 = 0;
+			            int date_fix2 = 0;
+			            int price1 = 0;
+			            int num;
+			            string<5> arriving_time = tmp.startTime;
+			            string<5> leaving_time = tmp.startTime;
+			            string<5> arriving_time1;
+			            int price = 0;
+			            mix info = T.Station1[tmp.pos1];
+			            for(int i = 0; i < tmp.stationNum; ++i){
+						    if(station2 == info.stations[i]){
+							    date_fix1 = date_fix2;
+							    price1 = price;
+							    num = i;
+							    arriving_time1 = arriving_time;
+							    date_gap1 = date_gap;
+							    break;
+						    }
+			                price += info.prices[i + 1];
+			                pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				            date_fix += tmpTime.first;
+				            date_fix2 = date_fix;
+				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				            date_gap = tmpTime2.first - tmpTime.first;
+				            date_fix += date_gap;
+				            arriving_time = tmpTime.second;
+				            leaving_time = tmpTime2.second;
+			            }
+			            date_gap = 0;
+			            date_fix = 0;
+			            date_fix2 = 0;
+			            arriving_time = tmp.startTime;
+			            leaving_time = tmp.startTime;
+			            price = 0;
+			            for(int i = 0; i < tmp.stationNum; ++i){
+						    if(station2 == info.stations[i]){
+							    break;
+						    }
+						    set2.push_back(key{info.stations[i], arriving_time1, leaving_time, date_gap, date_fix1 - date_fix2 - date_gap, date_fix2, price1 - price, tmp.saleDate_from, tmp.saleDate_to, i, num});
+			                price += info.prices[i + 1];
+			                pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				            date_fix += tmpTime.first;
+				            date_fix2 = date_fix;
+				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				            date_gap = tmpTime2.first - tmpTime.first;
+				            date_fix += date_gap;
+				            arriving_time = tmpTime.second;
+				            leaving_time = tmpTime2.second;
+			            }
+			            for(int it1 = 0; it1 < set1.size(); ++it1){
+				            for(int it2 = 0; it2 < set2.size(); ++it2){
+					            if(set1[it1].station != set2[it2].station) continue;
+					            if(minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1) < set1[it1].saledate_from || minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1) > set1[it1].saledate_to) continue;
+					            if(add_date(date, set1[it1].date_fix1) < add_date(set2[it2].saledate_to, set2[it2].date_fix2) || (add_date(date, set1[it1].date_fix1) == add_date(set2[it2].saledate_to, set2[it2].date_fix2) && set1[it1].timearrive <= set2[it2].timeleave)){
+						            string<5> tmpdate;
+						            if(add_date(date, set1[it1].date_fix1) < add_date(set2[it2].saledate_from, set2[it2].date_fix2 + set2[it2].date_gap)) tmpdate = add_date(set2[it2].saledate_from, set2[it2].date_fix2 + set2[it2].date_gap);
+						            else{
+							            tmpdate = add_date(date, set1[it1].date_fix1);
+							            if(set1[it1].timearrive > set2[it2].timeleave) tmpdate = add_date(tmpdate, 1);
+						            }
+						            if(minus_time(set1[it1].timeleave, set2[it2].timearrive) + 1440 * minus_date(date, add_date(tmpdate, set2[it2].date_fix1)) < min || minus_time(set1[it1].timeleave, set2[it2].timearrive) + 1440 * minus_date(date, add_date(tmpdate, set2[it2].date_fix1)) == min && (minus_time(set1[it1].timeleave, set1[it1].timearrive) + 1440 * set1[it1].date_fix1) < (minus_time(ans1.leaving_time, ans1.arriving_time) + 1440 * minus_date(ans1.leaving_date, ans1.arriving_date))){
+						                min = minus_time(set1[it1].timeleave, set2[it2].timearrive) + 1440 * minus_date(date, add_date(tmpdate, set2[it2].date_fix1));
+						                ans1 = ticket_train(TrainID1, station1, set1[it1].station, minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1), date, add_date(date, set1[it1].date_fix1), set1[it1].timeleave, set1[it1].timearrive, set1[it1].price, set1[it1].num1, set1[it1].num2);
+						                ans2 = ticket_train(TrainID2, set2[it2].station, station2, minus_date(tmpdate, set2[it2].date_fix2 + set2[it2].date_gap), tmpdate, add_date(tmpdate, set2[it2].date_fix1), set2[it2].timeleave, set2[it2].timearrive, set2[it2].price, set2[it2].num1, set2[it2].num2);
+						            }
+					            }
+				            }
+			            }
+				    }
+		        }
+	            }
+            }
+			result = pair<ticket_train, ticket_train>(ans1, ans2);
 			return result;
 		}
 		pair<ticket_train, ticket_train> query_transfer_price(const STATIONS &station1, const STATIONS &station2, const string<5> &date, train_related &T){
-
-			map<key, string<20>, station_compare> set1;
+/*			map<key, string<20>, station_compare> set1;
 			map<key, string<20>, station_compare> set2;
 			pair<ticket_train, ticket_train> result;
 			char a[2];
@@ -483,7 +619,144 @@ namespace sjtu{
 				}
 			}
 			pair<ticket_train, ticket_train> ans(ans1, ans2);
-			return ans;
+			return ans;*/
+						pair<ticket_train, ticket_train> result;
+			char a[2];
+			a[0] = 0x80;
+			string<20> tmpID = string<20>(a);
+			auto iter1 = ticket_train_tree.lower_bound(station_train(station1, tmpID));
+			auto iter3 = ticket_train_tree.lower_bound(station_train(station2, tmpID));	
+			ticket_train ans1;
+			ticket_train ans2;
+			int min = 100000;
+			for(; iter1 != ticket_train_tree.end() && iter1.get_key().get_station() == station1; ++iter1){
+			    vector<key> set1;
+			    set1.clear();
+			    string<20> TrainID1 = iter1.get_key().get_trainID();
+				train tmp = T.at(TrainID1);
+				if(!tmp.isrelease()){	
+					continue;
+				}
+				else{
+					bool flag = false;
+					int date_gap = 0;
+			        int date_fix = 0;
+			        int date_fix1 = 0;
+			        int date_fix2 = 0;
+			        int price1 = 0;
+			        int num;
+			        mix info = T.Station1[tmp.pos1]; 
+			        string<5> arriving_time = tmp.startTime;
+			        string<5> leaving_time = tmp.startTime;
+			        int price = 0;
+			        string<5> leaving_time1;
+			        for(int i = 0; i < tmp.stationNum; ++i){
+			        	if(flag){
+			        		set1.push_back(key{info.stations[i], arriving_time, leaving_time1, date_gap, date_fix2 - date_fix1, date_fix2, price - price1, tmp.saleDate_from, tmp.saleDate_to, num, i});
+						}
+						if(station1 == info.stations[i]){
+							flag = true;
+							date_fix1 = date_fix2 + date_gap;
+							price1 = price;
+							num = i;
+							leaving_time1 = leaving_time;
+						}
+						if(i == tmp.stationNum - 1) break;
+			            price += info.prices[i + 1];
+			            pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				        date_fix += tmpTime.first;
+				        date_fix2 = date_fix;
+				        pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				        date_gap = tmpTime2.first - tmpTime.first;
+				        date_fix += date_gap;
+				        arriving_time = tmpTime.second;
+				        leaving_time = tmpTime2.second;
+			        }
+				for(auto iter2 = iter3; iter2 != ticket_train_tree.end() && iter2.get_key().get_station() == station2; ++iter2){
+					vector<key> set2;
+					set2.clear();
+					string<20> TrainID2 = iter2.get_key().get_trainID();
+					if(TrainID1 == TrainID2) continue;
+				    train tmp = T.at(TrainID2);
+				    if(!tmp.isrelease())continue;
+				    else{
+					    int date_gap = 0;
+					    int date_gap1;
+			            int date_fix = 0;
+			            int date_fix1 = 0;
+			            int date_fix2 = 0;
+			            int price1 = 0;
+			            int num;
+			            string<5> arriving_time = tmp.startTime;
+			            string<5> leaving_time = tmp.startTime;
+			            string<5> arriving_time1;
+			            int price = 0;
+			            mix info = T.Station1[tmp.pos1];
+			            for(int i = 0; i < tmp.stationNum; ++i){
+						    if(station2 == info.stations[i]){
+							    date_fix1 = date_fix2;
+							    price1 = price;
+							    num = i;
+							    arriving_time1 = arriving_time;
+							    date_gap1 = date_gap;
+							    break;
+						    }
+			                price += info.prices[i + 1];
+			                pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				            date_fix += tmpTime.first;
+				            date_fix2 = date_fix;
+				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				            date_gap = tmpTime2.first - tmpTime.first;
+				            date_fix += date_gap;
+				            arriving_time = tmpTime.second;
+				            leaving_time = tmpTime2.second;
+			            }
+			            date_gap = 0;
+			            date_fix = 0;
+			            date_fix2 = 0;
+			            arriving_time = tmp.startTime;
+			            leaving_time = tmp.startTime;
+			            price = 0;
+			            for(int i = 0; i < tmp.stationNum; ++i){
+						    if(station2 == info.stations[i]){
+							    break;
+						    }
+						    set2.push_back(key{info.stations[i], arriving_time1, leaving_time, date_gap, date_fix1 - date_fix2 - date_gap, date_fix2, price1 - price, tmp.saleDate_from, tmp.saleDate_to, i, num});
+			                price += info.prices[i + 1];
+			                pair<int, string<5> > tmpTime = add_time(leaving_time, info.travelTimes[i + 1]);
+				            date_fix += tmpTime.first;
+				            date_fix2 = date_fix;
+				            pair<int, string<5> > tmpTime2 = add_time(leaving_time, info.travelTimes[i + 1] + info.stopoverTimes[i + 1]);
+				            date_gap = tmpTime2.first - tmpTime.first;
+				            date_fix += date_gap;
+				            arriving_time = tmpTime.second;
+				            leaving_time = tmpTime2.second;
+			            }
+			            for(int it1 = 0; it1 < set1.size(); ++it1){
+				            for(int it2 = 0; it2 < set2.size(); ++it2){
+					            if(set1[it1].station != set2[it2].station) continue;
+					            if(minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1) < set1[it1].saledate_from || minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1) > set1[it1].saledate_to) continue;
+					            if(add_date(date, set1[it1].date_fix1) < add_date(set2[it2].saledate_to, set2[it2].date_fix2) || (add_date(date, set1[it1].date_fix1) == add_date(set2[it2].saledate_to, set2[it2].date_fix2) && set1[it1].timearrive <= set2[it2].timeleave)){
+						            string<5> tmpdate;
+						            if(add_date(date, set1[it1].date_fix1) < add_date(set2[it2].saledate_from, set2[it2].date_fix2 + set2[it2].date_gap)) tmpdate = add_date(set2[it2].saledate_from, set2[it2].date_fix2 + set2[it2].date_gap);
+						            else{
+							            tmpdate = add_date(date, set1[it1].date_fix1);
+							            if(set1[it1].timearrive > set2[it2].timeleave) tmpdate = add_date(tmpdate, 1);
+						            }
+						            if(set1[it1].price + set2[it2].price < min || set1[it1].price + set2[it2].price == min && (minus_time(set1[it1].timeleave, set1[it1].timearrive) + 1440 * set1[it1].date_fix1) < (minus_time(ans1.leaving_time, ans1.arriving_time) + 1440 * minus_date(ans1.leaving_date, ans1.arriving_date))){
+						                min = set1[it1].price + set2[it2].price;
+						                ans1 = ticket_train(TrainID1, station1, set1[it1].station, minus_date(date, set1[it1].date_fix2 - set1[it1].date_fix1), date, add_date(date, set1[it1].date_fix1), set1[it1].timeleave, set1[it1].timearrive, set1[it1].price, set1[it1].num1, set1[it1].num2);
+						                ans2 = ticket_train(TrainID2, set2[it2].station, station2, minus_date(tmpdate, set2[it2].date_fix2 + set2[it2].date_gap), tmpdate, add_date(tmpdate, set2[it2].date_fix1), set2[it2].timeleave, set2[it2].timearrive, set2[it2].price, set2[it2].num1, set2[it2].num2);
+						            }
+					            }
+				            }
+			            }
+				    }
+		        }
+	            }
+            }
+			result = pair<ticket_train, ticket_train>(ans1, ans2);
+			return result;
 		}
     };
 }
