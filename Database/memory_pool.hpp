@@ -78,7 +78,7 @@ struct unit {
 	}
 };
 
-const size_t magic = 33331, K = 2048;
+const size_t magic = 33331, K = 1024;
 
 class buffer_pool {
 private:
